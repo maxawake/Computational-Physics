@@ -1,0 +1,71 @@
+% Lines that start with a % are comments and are not included when the LaTeX file is converted to a pdf
+
+% Set up the document class - this can be changed if a different format is required 
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+
+
+% Include packages that contain additional features, for example including special mathematical characters and images in your document
+\usepackage{enumitem}
+\usepackage{pdfpages}
+% The beginning of the document...
+\begin{document}
+
+% Please change the following accordingly...
+\centerline{\large Exercises sheet 4}\vspace{0.5em}
+\centerline{\large by Maximilian Richter and Christian Heppe}\vspace{2em}
+
+% Split the different exercises into different sections...
+\section*{Exercise 2}
+
+% To include a plot it must be in the same directory as the .tex file.
+Within the Tutorium we began coding a Gauß elimination algorithm for solving equations of the form $A\cdot\vec{x}=\vec{b}$ with $A$ being $n\times n$ matrix. Since this worked for any given $n\times n$ matrix we continued using the algorithm. It works with three basic loops:	
+		\begin{enumerate}[label=\roman*.]
+			\item Bring the matrix into a upper triangular form.
+			\item Bring the matrix into a diagonal form through elimination.
+			\item Solve for vector $\vec{x}$.
+		\end{enumerate}
+Since we are using the algortihm in full form we are limited in describing each step without providing subroutines/codes for each excercise step.
+\begin{enumerate}
+\item We implemented the iterative expression for the Gaussian elimination as follows into our algorithm:
+		\begin{enumerate}[label=\roman*.]
+			\item		$m=\frac{A_{i+1 i}}{A_{ii}}$
+					\newline
+						$A_{i+1}=A_{i+1}-A_{i}\cdot m$	and; $i=1,...,n$					
+					\newline	where $A_{i}$ is the i-th row of the matrix. Analogous for $\vec{b}$: 	
+					\newline	
+						$b_{i+1}=b_{i+1}-b_{i}\cdot m$					
+			\item 	$A_{i}=A_{i}-\sum \limits_{j=i+1}^{n}k_{j}\cdot A_{j}$\\				
+					$b_{i}=b_{i}-\sum \limits_{j=i+1}^{n} k_{j}\cdot b_{j}$		 $;i=1,...,n ;j=i+1,...,n$	
+					\newline
+					with  $k_{j}=\frac{A_{j i}}{A_{jj}}$			
+			\item 	$x_{i}=\frac{b_{i}}	{A_{ii}}$
+		\end{enumerate}
+	Note that we have added several value checks to accomodade for 0's in each step.
+\item For a matrix of the given form:
+\newline
+		${\displaystyle \left({\begin{matrix}{b_{1}}&{c_{1}}&{}&{}&{0}\\{a_{2}}&{b_{2}}&{c_{2}}&{}&{}\\{}&{a_{3}}&{b_{3}}&\ddots &{}\\{}&{}&\ddots &\ddots &{c_{n-1}}\\{0}&{}&{}&{a_{n}}&{b_{n}}\\\end{matrix}}\right)\left({\begin{matrix}{x_{1}}\\{x_{2}}\\{x_{3}}\\\vdots \\{x_{n}}\\\end{matrix}}\right)=\left({\begin{matrix}{d_{1}}\\{d_{2}}\\{d_{3}}\\\vdots \\{d_{n}}\\\end{matrix}}\right).}$
+		\newline
+\newline we calculate the following
+		\newline 
+		${\displaystyle c'_{i}={\begin{cases}{\begin{array}{lcl}{\cfrac {c_{1}}{b_{1}}}&;&i=1\\{\cfrac {c_{i}}{b_{i}-c'_{i-1}a_{i}}}&;&i=2,3,\dots ,n-1\\\end{array}}\end{cases}}\,}$
+		\newline 
+		${\displaystyle d'_{i}={\begin{cases}{\begin{array}{lcl}{\cfrac {d_{1}}{b_{1}}}&;&i=1\\{\cfrac {d_{i}-d'_{i-1}a_{i}}{b_{i}-c'_{i-1}a_{i}}}&;&i=2,3,\dots ,n\\\end{array}}\end{cases}}\,}$
+		\newline 
+		$x_{n}=d'_{n}$
+		\newline 
+		$x_{i}=d'_{i}-c'_{i}x_{{i+1}}\qquad ;\ i=n-1,n-2,\ldots ,1$
+\item For any given $a_2\dots a_n, b_1 \dots b_n, c_1 \dots c_{n-1}$ and $y_1 \dots y_n$ it is necessary to define the matrix as $A=np.array([A_1 \dots A_n])	$ into the code. We didn't do this explicitly because by defining a matrix A the algorithm can solve for $\vec{x}$ with a given $\vec{b}$.\\ It should be noted that it is necesary for the check routine to work, to save/copy the initial input values (A as 'AOG' and $\vec{b}$ as 'bOG'). These steps aren't inside our algorithm per se but could easily be implemented into it. For the time being it is necessary to copy the two lines of code under the input for A and $\vec{b}$.	
+\item As seen in our attached code we implemented a form that would construct us the given matrix as A. The found solution for $\vec{x}$ is given as 
+\begin{align*}
+\vec{x}=\left(0.5, 0.9, 1.2, 1.4, 1.5, 1.5, 1.4, 1.2, 0.9, 0.5\right)^T
+\end{align*}
+\item With the included check subroutine in our algorithm we found that our result for 	$\vec{x}$ gives us the exact initial $\vec{y}$, thus we find our algorithm and it's found solution to be satisfactory!	
+\end{enumerate}
+% Remove the "%" in the following line and change the "plot.png" to the name of the plot to include.
+\end{document}
